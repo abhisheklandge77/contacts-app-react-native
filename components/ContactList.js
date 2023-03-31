@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import ContactItem from './ContactItem';
 
 export default function ContactList({ contacts }) {
-    const keyExtractor = (item, idx) => {
-        return item?.id?.toString() || idx.toString();
-    };
-    const renderItem = ({ item }) => {
-        return <ContactItem contact={item} />;
-    };
+    // const keyExtractor = (item, idx) => {
+    //     return item?.id?.toString() || idx.toString();
+    // };
+    // const renderItem = ({ item }) => {
+    //     return <ContactItem contact={item} />;
+    // };
 
     return (
         <>
@@ -17,18 +17,23 @@ export default function ContactList({ contacts }) {
             </View>
             {
                 contacts.length ? (
-                    <FlatList
-                        data={contacts}
-                        renderItem={renderItem}
-                        keyExtractor={keyExtractor}
-                        style={styles.list}
-                    />
-                ) : 
-                (
-                <View style={styles.noContactsFound}>
-                    <Text style={styles.listHeader}>No Contacts Found</Text>
-                </View>
-                )
+                    // <FlatList
+                    //     data={contacts}
+                    //     renderItem={renderItem}
+                    //     keyExtractor={keyExtractor}
+                    //     style={styles.list}
+                    // />
+                    <ScrollView>
+                        {
+                            contacts.filter(contactObj => contactObj).map((contact) => <ContactItem contact={contact} key={contact?.id}/>)
+                        }
+                    </ScrollView>
+                ) :
+                    (
+                        <View style={styles.noContactsFound}>
+                            <Text style={styles.listHeader}>No Contacts Found</Text>
+                        </View>
+                    )
             }
         </>
     );
@@ -47,5 +52,5 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
 });

@@ -1,12 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 export default function ContactItem({contact}) {
+
   return (
-    <View style={styles.contactCon}>
+    <View style={styles.contactCon} key={contact?.id || Math.randomm()}>
       <View style={styles.imgCon}>
-        <View style={styles.placeholder}>
-          <Text style={styles.txt}>{contact?.name[0].toUpperCase()}</Text>
+        <View style={contact?.imageAvailable ? styles.imgCon : styles.placeholder}>
+          {
+            contact?.imageAvailable ? (
+              <Image source={contact?.image || {uri: ''}} style={styles.imgCon} />
+            ) : (
+              <Text style={styles.txt}>{contact?.name[0]}</Text>
+            )
+          }
         </View>
       </View>
       <View style={styles.contactDat}>
@@ -14,22 +21,25 @@ export default function ContactItem({contact}) {
           {contact?.name}
         </Text>
         <Text style={styles.phoneNumber}>
-          {contact?.phoneNumbers[0]?.number}
+          {(contact?.phoneNumbers?.length && contact?.phoneNumbers[0]?.number) || 'N/A'}
         </Text>
       </View>
-      
     </View>
   );
 };
 const styles = StyleSheet.create({
   contactCon: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     padding: 5,
     borderBottomWidth: 0.5,
     borderBottomColor: '#d9d9d9',
   },
-  imgCon: {},
+  imgCon: {
+    height: 55,
+    width: 55,
+    borderRadius: 30,
+  },
   placeholder: {
     width: 55,
     height: 55,
